@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: loadbalancer-svc
+spec:
+  type: LoadBalancer
+  selector:
+    app: new-app
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: loadbalancer-pod
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: new-app
+  template:
+    metadata:
+      labels:
+        app: new-app 
+    spec:
+      containers:
+        - name: thangam
+          image: iammithran/mohan:latest
+          imagePullPolicy: Always
